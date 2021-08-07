@@ -1,0 +1,18 @@
+---
+
+
+# Firewall settings
+firewall_enabled: true
+firewall_allowed_tcp_ports:
+  - "22"
+  - "80"
+  - "9090"
+  - "443"
+
+firewall_log_dropped_packets: false
+firewall_disable_firewalld: true
+firewall_disable_ufw: true
+
+# set the timezone to what you need
+user_timezone: Europe/London
+

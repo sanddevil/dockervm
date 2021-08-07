@@ -1,0 +1,17 @@
+---
+
+- name: Ensure file exists
+  file:
+    path: "{{ environment_file }}"
+    owner: "{{ environment_file_owner }}"
+    group: "{{ environment_file_group }}"
+    state: touch
+  register: environment_file_result
+  changed_when: environment_file_result.state != "file"
+
+- name: Configuring environment
+  lineinfile:
+    dest: "{{ environment_file }}"
+    regexp: '^{{ item.key }}\ ?='
+    line: "{{ item.key }}='{{ item.value }}'"
+  with_dict: "{{ environment_config }}"

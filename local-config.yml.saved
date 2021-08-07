@@ -1,0 +1,7 @@
+---
+
+
+# AWS Access Keys
+aws_key_id_local: XXXXXXXXXXXXXXXXXXXX
+aws_secret_local: XXXXXXXXXXXXXXXXXXXX
+aws_region_local: eu-west-1

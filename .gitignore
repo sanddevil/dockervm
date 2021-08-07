@@ -1,0 +1,8 @@
+# IDE config
+.idea
+
+# Local config settings
+local-config.yml
+
+# vagrant hidden directory
+.vagrant

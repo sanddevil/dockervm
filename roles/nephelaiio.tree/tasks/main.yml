@@ -1,0 +1,13 @@
+---
+- name: enable ubuntu universe repository
+  command: add-apt-repository universe
+  when: (ansible_distribution | lower) == 'ubuntu'
+  changed_when: false
+  tags:
+    - skip_ansible_lint
+
+- name: install tree packages
+  package:
+    name: "{{ tree_packages }}"
+    state: "{{ tree_packages_state }}"
+  become: yes

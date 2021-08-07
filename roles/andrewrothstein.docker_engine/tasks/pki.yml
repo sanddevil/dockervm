@@ -1,0 +1,19 @@
+---
+- name: mkdir -p {{ docker_engine_tls_dir }}
+  become: yes
+  become_user: root
+  file:
+    path: '{{ docker_engine_tls_dir }}'
+    state: directory
+    mode: 0755
+- name: install keys/certs
+  include_role:
+    name: andrewrothstein.tls
+  vars:
+    tls_become: yes
+    tls_become_user: root
+    tls_src: '{{ docker_engine_tls.pki_dir }}'
+    tls_dest: '{{ docker_engine_tls_dir }}'
+    tls_dest_chmod:
+      owner: root
+      grp: root

@@ -1,0 +1,52 @@
+---
+- name: resolve platform specific vars
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+      paths:
+        - '{{ role_path }}/vars'
+
+- include_tasks: '{{ docker_engine_installer }}.yml'
+
+- when: docker_engine_daemon_json is defined
+  block:
+    - name: mkdir /etc/docker...
+      become: yes
+      become_user: root
+      file:
+        path: /etc/docker
+        state: directory
+        mode: 0755
+    - name: write /etc/docker/daemon.json
+      become: yes
+      become_user: root
+      notify: docker_engine_restart
+      template:
+        src: daemon.json.j2
+        dest: /etc/docker/daemon.json
+        mode: 0644
+
+- name: configure for private registries
+  when: docker_engine_private_registry_cas is defined
+  include_tasks: private-registry.yml
+
+- name: install docker daemon keys/cert/cacert
+  when: docker_engine_tls.enabled
+  include_tasks: pki.yml
+
+- name: configure {{ docker_engine_eff_init }} init...
+  when: docker_engine_eff_init in ["systemd", "upstart"]
+  include_tasks: init.yml
+
+- name: start/enable docker
+  become: yes
+  become_user: root
+  when: docker_engine_manage_service
+  service:
+    name: docker
+    state: '{{ docker_engine_state }}'
+    enabled: '{{ docker_engine_enabled }}'

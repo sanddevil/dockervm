@@ -1,0 +1,6 @@
+- when: tls_src is defined and tls_dest is defined
+  block:
+    - loop: '{{ tls_kinds }}'
+      loop_control:
+        loop_var: tls_kind
+      include_tasks: 'install-{{ tls_installer }}.yml'

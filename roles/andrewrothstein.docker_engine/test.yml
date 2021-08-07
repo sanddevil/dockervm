@@ -1,0 +1,26 @@
+---
+- hosts: all
+  vars:
+    docker_engine_manage_service: no
+    docker_engine_private_registry_cas:
+      - registry: my-registry:4567
+        ca_cert: my-private-ca.pem
+    docker_engine_init_exports:
+      http_proxy: http://proxy.example.com:3128
+      HTTP_PROXY: http://proxy.example.com:3128
+      https_proxy: https://proxy.example.com:3128
+      HTTPS_PROXY: https://proxy.example.com:3128
+      no_proxy: '.example.com,127.0.0.1'
+      NO_PROXY: '.example.com,127.0.0.1'
+    docker_engine_tls:
+      enabled: True
+      pki_dir: '{{ playbook_dir }}/test-pki'
+    docker_engine_additions: lvm
+  roles:
+  - role: '{{ playbook_dir }}'
+  tasks:
+  - command: docker --version
+    register: docker_test_output
+  - name: docker --version
+    debug:
+      msg: '{{ docker_test_output.stdout }}'

@@ -1,0 +1,35 @@
+---
+# instructions per https://docs.docker.com/install/linux/docker-ce/debian/
+- name: install docker engine OS pkg deps
+  become: yes
+  become_user: root
+  package:
+    name: '{{ docker_engine_os_pkgs }}'
+    state: '{{ docker_engine_package_state | default("present") }}'
+- name: install docker engine addl OS pkgs
+  become: yes
+  become_user: root
+  when: docker_engine_addl_pkgs is defined and docker_engine_additions is defined and docker_engine_additions in docker_engine_addl_pkgs
+  package:
+    name: '{{ docker_engine_addl_pkgs[docker_engine_additions] }}'
+    state: '{{ docker_engine_package_state | default("present") }}'
+- name: add apt key
+  become: yes
+  become_user: root
+  apt_key:
+    url: 'https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg'
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+- name: add apt repository
+  become: yes
+  become_user: root
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'
+    filename: docker-ce
+    state: present
+- name: install docker packages
+  become: yes
+  become_user: root
+  package:
+    name: '{{ docker_engine_pkgs }}'
+    state: '{{ docker_engine_package_state | default("present") }}'

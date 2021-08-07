@@ -1,0 +1,12 @@
+[Unit]
+After=network.target
+{% for s in docker_engine_systemd_afters | default([]) %}
+After={{ s }}
+{% endfor %}
+
+[Service]
+{% if docker_engine_init_exports is defined %}
+{% for k,v in docker_engine_init_exports | dictsort %}
+Environment={{ '"%s=%s"' | format(k,v) }}
+{% endfor %}
+{% endif %}

@@ -1,0 +1,28 @@
+---
+- name: purge old docker packages
+  dnf:
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-selinux
+      - docker-engine-selinux
+      - docker-engine
+    state: absent
+
+- name: add docker-ce repository
+  yum_repository:
+    name: docker-ce
+    description: Docker Repository
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/stable
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+    gpgcheck: yes
+    file: docker
+
+- name: install docker-ce
+  dnf:
+    name: docker-ce

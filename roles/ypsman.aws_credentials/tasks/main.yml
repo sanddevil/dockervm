@@ -1,0 +1,33 @@
+---
+# tasks file for aws-credentials
+- stat: path={{ aws_userhome }}
+  register: p
+
+- file:
+    path: "{{ aws_userhome }}/.aws"
+    state: directory
+    owner: "{{ aws_user }}"
+    group: "{{ aws_user }}"
+    mode: 0600
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- copy:
+    content: |
+            [default]
+            region = {{ aws_region }}
+    dest: "{{ aws_userhome }}/.aws/config"
+    owner: "{{ aws_user }}"
+    group: "{{ aws_user }}"
+    mode: 0600
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- copy:
+    content: |
+            [default]
+            aws_access_key_id = {{ aws_key_id }}
+            aws_secret_access_key = {{ aws_secret }}
+    dest: "/{{ aws_userhome }}/.aws/credentials"
+    owner: "{{ aws_user }}"
+    group: "{{ aws_user }}"
+    mode: 0600
+  when: p.stat.isdir is defined and p.stat.isdir

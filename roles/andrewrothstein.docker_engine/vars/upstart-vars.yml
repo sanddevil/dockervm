@@ -1,0 +1,4 @@
+---
+docker_engine_templates:
+  - d: /etc/init
+    f: docker.override

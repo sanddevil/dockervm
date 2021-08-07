@@ -1,0 +1,6 @@
+# vim: sw=2 ts=2 et :
+---
+# User variables for role
+tree_packages: tree
+
+tree_packages_state: present

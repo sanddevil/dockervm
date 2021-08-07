@@ -1,0 +1,26 @@
+galaxy_info:
+  author: ypsman
+  description: AWS Credentials, Region and Config for specific User
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 1.2
+  platforms:
+  - name: Debian
+    versions:
+    - stretch
+    - jessie
+    - wheezy
+  - name: Ubuntu
+    versions: all
+  galaxy_tags:
+  - aws
+  - awscli
+  - aws-cli
+  - credential
+  - config
+  - cloud
+  - amazon
+  - ec2
+  - region
+  - ubuntu
+  - debian
+dependencies: []

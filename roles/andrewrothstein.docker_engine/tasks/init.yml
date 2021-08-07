@@ -1,0 +1,24 @@
+---
+- name: initialize vars for {{ docker_engine_eff_init }} init system
+  include_vars: '{{ docker_engine_eff_init }}-vars.yml'
+
+- name: creating {{ docker_engine_eff_init }} config directories
+  become: yes
+  become_user: root
+  with_items: '{{ docker_engine_templates }}'
+  file:
+    path: '{{ item.d }}'
+    state: directory
+    mode: 0755
+
+- name: instantiating templates for {{ docker_engine_eff_init }}
+  become: yes
+  become_user: root
+  with_items: '{{ docker_engine_templates }}'
+  notify:
+    - docker_engine_reconfigure
+    - docker_engine_restart
+  template:
+    src: '{{ docker_engine_eff_init }}/{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m | default("0644") }}'

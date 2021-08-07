@@ -1,0 +1,4 @@
+---
+docker_engine_templates:
+  - d: /etc/systemd/system/docker.service.d
+    f: ansible-configured.conf

@@ -1,0 +1,4 @@
+---
+docker_engine_installer: pacman
+docker_engine_pkgs:
+  - docker

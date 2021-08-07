@@ -1,0 +1,139 @@
+---
+- name: add docker-ce-stable repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/stable
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-stable-debuginfo repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-stable-debuginfo
+    description: Docker CE Stable - Debuginfo $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/debug-$basearch/stable
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-stable-source repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-stable-source
+    description: Docker CE Stable - Sources
+    baseurl: https://download.docker.com/linux/fedora/$releasever/source/stable
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-edge repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-edge
+    description: Docker CE Edge - $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/edge
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-edge-debuginfo repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-edge-debuginfo
+    description: Docker CE Edge - Debuginfo $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/debug-$basearch/edge
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-edge-source repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-edge-source
+    description: Docker CE Edge - Sources
+    baseurl: https://download.docker.com/linux/fedora/$releasever/source/edge
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-test repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-test
+    description: Docker CE Test - $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/test
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-test-debuginfo repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-test-debuginfo
+    description: Docker CE Test - Debuginfo $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/debug-$basearch/test
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-test-source repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-test-source
+    description: Docker CE Test - Sources
+    baseurl: https://download.docker.com/linux/fedora/$releasever/source/test
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-nightly repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-nightly
+    description: Docker CE Nightly - $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/nightly
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-nightly-debuginfo repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-nightly-debuginfo
+    description: Docker CE Nightly - Debuginfo $basearch
+    baseurl: https://download.docker.com/linux/fedora/$releasever/debug-$basearch/nightly
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: add docker-ce-nightly-source repo
+  become: yes
+  become_user: root
+  yum_repository:
+    name: docker-ce-nightly-source
+    description: Docker CE Nightly - Sources
+    baseurl: https://download.docker.com/linux/fedora/$releasever/source/nightly
+    enabled: false
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+
+- name: install docker package
+  become: yes
+  become_user: root
+  package:
+    name: '{{ docker_engine_pkgs }}'
+    state: '{{ docker_engine_package_state | default("present") }}'

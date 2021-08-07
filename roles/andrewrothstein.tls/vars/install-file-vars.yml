@@ -1,0 +1,7 @@
+---
+# vars file for install-file.yml
+src:
+  fq_file_name: '{{ tls_src }}/{{ tls_src_file_names[tls_kind] }}'
+dest:
+  fq_file_name: '{{ tls_dest }}/{{ tls_dest_file_names[tls_kind] }}'
+  mode: '{{ tls_dest_file_modes[tls_kind] }}'

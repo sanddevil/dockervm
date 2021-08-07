@@ -1,0 +1,6 @@
+---
+docker_engine_installer: apk
+docker_engine_init: rc
+docker_engine_pkgs:
+  - docker
+  - docker-cli

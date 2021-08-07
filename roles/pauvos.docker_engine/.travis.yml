@@ -1,0 +1,22 @@
+git:
+  depth: 3
+
+sudo: required
+
+env:
+  - OS: ubuntu-16.04
+  - OS: debian-8
+  - OS: fedora-24
+  - OS: centos-7
+
+services:
+  - docker
+
+before_install:
+  - make before_install
+
+script:
+  - make test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -1,0 +1,6 @@
+---
+- name: installing docker with brew
+  homebrew:
+    name: '{{ docker_engine_pkgs }}'
+    state: '{{ docker_engine_package_state | default("present") }}'
+    update_homebrew: '{{ docker_engine_update_homebrew | default("no") }}'

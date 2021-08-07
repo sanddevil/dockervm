@@ -1,0 +1,17 @@
+---
+docker_engine_installer: debian
+docker_engine_pkgs:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+docker_engine_addl_pkgs:
+  lvm:
+    - thin-provisioning-tools
+
+docker_engine_os_pkgs:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg2
+  - software-properties-common

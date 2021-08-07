@@ -1,0 +1,77 @@
+---
+
+- hosts: all
+  become: true
+
+  vars_files:
+    - vars/main.yml
+    - config.yml
+    - local-config.yml
+
+
+  pre_tasks:
+
+    - include_tasks: "tasks/init-Debian.yml"
+
+  roles:
+
+    # VMs are naturally unsafe places...
+    - role: geerlingguy.firewall
+
+    # Linux Tree command
+    - role: nephelaiio.tree
+
+    # Environmental variables
+    - role: weareinteractive.environment
+
+    # NodeJS
+    - role: geerlingguy.nodejs
+
+    # AWS Credentials File
+    - role: ypsman.aws_credentials
+      aws_user: 'vagrant'
+      aws_userhome: '/home/vagrant'
+      aws_region: "{{ aws_region_local }}"
+      aws_key_id: "{{ aws_key_id_local }}"
+      aws_secret: "{{ aws_secret_local }}"
+
+    # AWS CLI
+    - role: tommarshall.awscli
+      awscli_version: 1.16.306
+
+    # Ansible
+    - role: geerlingguy.ansible
+
+    # Docker engine
+    - role: andrewrothstein.docker_engine
+
+
+
+
+  tasks:
+
+    - name: set timezone to default value
+      timezone:
+        name: "{{ user_timezone }}"
+
+    - name: Set permissions on AWS credentials and config file
+      file:
+        path: /home/vagrant/.aws
+        owner: vagrant
+        group: vagrant
+        recurse: yes
+        mode: u=rwx
+
+    - name: Create ~/.ssh directory since openssh_keypair won't do it
+      become: yes
+      become_user: vagrant
+      file:
+        path: /home/vagrant/.ssh
+        state: directory
+        mode: '0755'
+
+    - name: Add vagrant user to the docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes

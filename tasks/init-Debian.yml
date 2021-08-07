@@ -1,0 +1,9 @@
+---
+
+- name: Install required dependencies.
+  apt:
+    name: ['gcc', 'curl', 'python-apt', 'python-pycurl', 'sudo', 'unzip', 'make', 'jq', 'docker-compose']
+    update_cache: yes
+    state: present
+
+

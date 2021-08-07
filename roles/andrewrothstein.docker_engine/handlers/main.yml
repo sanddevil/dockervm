@@ -1,0 +1,15 @@
+---
+# handlers file for docker_engine
+- name: docker_engine_reconfigure
+  become: yes
+  become_user: root
+  when: docker_engine_manage_service and docker_engine_config_reload and docker_engine_eff_init == 'systemd'
+  systemd:
+    daemon_reload: yes
+- name: docker_engine_restart
+  become: yes
+  become_user: root
+  when: docker_engine_manage_service and docker_engine_config_reload
+  service:
+    name: docker
+    state: restarted

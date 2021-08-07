@@ -1,0 +1,27 @@
+---
+- name: mkdir -p {{ docker_engine_certs_d }}
+  become: yes
+  become_user: root
+  file:
+    path: '{{ docker_engine_certs_d }}'
+    state: directory
+    mode: 0755
+    group: '{{ docker_engine_group | default("docker") }}'
+- name: create registry CA cert directories
+  become: yes
+  become_user: root
+  with_items: '{{ docker_engine_private_registry_cas | default([]) }}'
+  file:
+    path: '{{ docker_engine_certs_d }}/{{ item.registry }}'
+    state: directory
+    mode: 0755
+    group: '{{ docker_engine_group | default("docker") }}'
+- name: installing CA certs for private registries...
+  become: yes
+  become_user: root
+  with_items: '{{ docker_engine_private_registry_cas | default([]) }}'
+  copy:
+    src: '{{ item.ca_cert }}'
+    dest: '{{ docker_engine_certs_d }}/{{ item.registry }}/ca.crt'
+    group: '{{ docker_engine_group | default("docker") }}'
+    mode: 0640

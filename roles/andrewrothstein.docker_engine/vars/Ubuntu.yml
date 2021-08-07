@@ -1,0 +1,20 @@
+---
+docker_engine_installer: debian
+docker_engine_pkgs:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+docker_engine_addl_pkgs:
+  lvm:
+    - thin-provisioning-tools
+
+docker_engine_os_pkgs:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+
+# Reference Doc: https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot
+docker_engine_init: '{{ ansible_distribution_version is version("14.10", operator="<=") | ternary("upstart", "systemd") }}'

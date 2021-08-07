@@ -1,0 +1,44 @@
+---
+# defaults file for tls
+
+tls_become: False
+tls_become_user: root
+
+# file: copying local files to target machines
+tls_installer: file
+
+# operator's location of the source PKI on localhost
+#tls_src: ~/pki-dir
+
+tls_kinds:
+  - ca
+  - cert
+  - key
+
+# default src file names in the tls_src dir for the different kinds
+tls_src_file_names:
+  ca: ca.pem
+  cert: '{{ inventory_hostname }}.pem'
+  key: '{{ inventory_hostname }}-key.pem'
+
+
+# destination directory to drop the TLS files on the target machine
+#tls_dest: /pki
+
+# default destination directory file names by kind
+tls_dest_file_names:
+  ca: ca.pem
+  cert: cert.pem
+  key: key.pem
+
+# destination file modes by kind
+tls_dest_file_modes:
+  ca: '0600'
+  cert: '0600'
+  key: '0400'
+
+# the user/group of the destination files
+tls_dest_chown:
+  owner: root
+  grp: root
+  remote_src: no
