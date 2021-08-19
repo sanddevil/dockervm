@@ -75,3 +75,19 @@
         name: vagrant
         groups: docker
         append: yes
+
+    # Drush shell function. Only needed if you are running Drupal projects and my Drupal docker-compose solution
+    # See my blog @ *TODO*
+    - name: Drush shell function
+      blockinfile:
+        path: /etc/bash.bashrc
+        block: |
+          # Drush
+          drush() {
+            PARAMS=$@
+            CONTAINER="core-drupal"
+            CMD="sh -c \"/var/www/html/vendor/bin/drush ${PARAMS}\""
+            DCMD="docker exec -it $CONTAINER $CMD"
+            eval $DCMD
+          }
+        insertafter: "zzz"
