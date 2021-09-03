@@ -37,7 +37,7 @@
 
     # AWS CLI
     - role: tommarshall.awscli
-      awscli_version: 1.16.306
+      awscli_version: 1.20.31
 
     # Ansible
     - role: geerlingguy.ansible
@@ -49,6 +49,10 @@
 
 
   tasks:
+
+    - name: Instll the AWS SEssion Manager which is used with CLI
+      apt:
+        deb: https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb
 
     - name: set timezone to default value
       timezone:
@@ -86,7 +90,7 @@
           drush() {
             PARAMS=$@
             CONTAINER="core-drupal"
-            CMD="sh -c \"/var/www/html/vendor/bin/drush ${PARAMS}\""
+            CMD="sh -c \"/opt/drupal/vendor/bin/drush ${PARAMS}\""
             DCMD="docker exec -it $CONTAINER $CMD"
             eval $DCMD
           }
